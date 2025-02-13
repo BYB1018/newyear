@@ -20,7 +20,8 @@
 3. 点击"分享祝福"可以快速分享给他人
 
 ## 在线访问
-访问地址：https://byb1018.github.io/newyear/
+GitHub Pages 地址：https://byb1018.github.io/newyear/
+Vercel 部署地址：https://newyear-puce.vercel.app/
 
 ## 技术栈
 - HTML5

@@ -19,12 +19,16 @@ const blessings = {
 function generateBlessing(type) {
     try {
         const output = document.getElementById('output');
+        output.style.transform = 'rotateX(90deg)';
+        output.style.opacity = '0';
         output.innerHTML = '<span style="color: #999;">正在生成祝福语...</span>';
         
         setTimeout(() => {
             const category = blessings[type];
             const randomIndex = Math.floor(Math.random() * category.length);
             output.innerHTML = category[randomIndex];
+            output.style.transform = 'rotateX(0deg)';
+            output.style.opacity = '1';
             output.classList.add('animate');
             setTimeout(() => output.classList.remove('animate'), 500);
         }, 200);
@@ -36,31 +40,103 @@ function generateBlessing(type) {
 
 function copyToClipboard() {
     const text = document.getElementById('output').innerText;
-    navigator.clipboard.writeText(text).then(() => {
-        alert('祝福语已复制到剪贴板！');
-    });
+    if (text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('祝福语已复制到剪贴板！');
+        }).catch(() => {
+            alert('复制失败，请手动复制。');
+        });
+    } else {
+        alert('请先生成祝福语！');
+    }
 }
 
 function shareBlessing() {
     const text = document.getElementById('output').innerText;
-    if (navigator.share) {
-        navigator.share({
-            title: '春节祝福',
-            text: text,
-            url: 'https://byb1018.github.io/newyear/'
-        }).catch(err => {
-            console.log('分享失败:', err);
-            fallbackShare();
-        });
-    } else {
-        fallbackShare();
+    if (!text) {
+        alert('请先生成祝福语！');
+        return;
     }
+    
+    // 创建分享弹窗
+    const shareUrl = 'https://newyear-puce.vercel.app/';
+    const shareTitle = '春节祝福';
+    const shareText = encodeURIComponent(`${text}\n\n来自春节祝福生成器：${shareUrl}`);
+    
+    // 创建分享弹窗的HTML
+    const shareDialog = document.createElement('div');
+    shareDialog.className = 'share-dialog';
+    shareDialog.innerHTML = `
+        <div class="share-content">
+            <h3>分享到</h3>
+            <div class="share-buttons">
+                <button onclick="window.open('http://service.weibo.com/share/share.php?url=${encodeURIComponent(shareUrl)}&title=${shareText}', '_blank', 'width=600,height=500')">
+                    <img src="https://api.iconify.design/simple-icons:sinaweibo.svg?color=%23e6162d" alt="微博">
+                    微博
+                </button>
+                <button onclick="shareToWechat()">
+                    <img src="https://api.iconify.design/simple-icons:wechat.svg?color=%2307c160" alt="微信">
+                    微信
+                </button>
+                <button onclick="window.open('https://connect.qq.com/widget/shareqq/index.html?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareTitle)}&desc=${shareText}', '_blank', 'width=600,height=500')">
+                    <img src="https://api.iconify.design/simple-icons:tencentqq.svg?color=%23eb1923" alt="QQ">
+                    QQ
+                </button>
+            </div>
+            <button class="close-button" onclick="this.parentElement.parentElement.remove()">关闭</button>
+        </div>
+    `;
+    document.body.appendChild(shareDialog);
 }
 
-function fallbackShare() {
+// 微信分享处理函数
+function shareToWechat() {
     const text = document.getElementById('output').innerText;
-    const shareUrl = `https://byb1018.github.io/newyear/`;
-    const shareText = `${text}\n\n来自春节祝福生成器：${shareUrl}`;
-    copyToClipboard(shareText);
-    alert('祝福语已复制，您可以直接粘贴分享给亲朋好友！');
+    const shareUrl = 'https://newyear-puce.vercel.app/';
+    
+    // 如果已经存在二维码弹窗，先移除
+    const existingDialog = document.querySelector('.qr-dialog');
+    if (existingDialog) {
+        existingDialog.remove();
+    }
+
+    // 创建二维码弹窗
+    const qrDialog = document.createElement('div');
+    qrDialog.className = 'qr-dialog';
+    qrDialog.innerHTML = `
+        <div class="qr-content">
+            <h3>微信分享说明</h3>
+            <p class="share-tip">1. 点击右上角菜单按钮</p>
+            <p class="share-tip">2. 点击"分享给朋友"或"分享到朋友圈"</p>
+            <div class="share-text">
+                <p>${text}</p>
+                <p class="share-source">来自春节祝福生成器：${shareUrl}</p>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()">关闭</button>
+        </div>
+    `;
+    document.body.appendChild(qrDialog);
 }
+
+// 页面加载完成后自动生成一条传统祝福
+window.onload = () => generateBlessing('traditional');
+
+// 添加按钮点击波纹效果
+document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        this.appendChild(ripple);
+
+        const rect = button.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+
+        ripple.style.width = ripple.style.height = `${size}px`;
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+
+        setTimeout(() => ripple.remove(), 600);
+    });
+});

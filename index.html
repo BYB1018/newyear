@@ -2,15 +2,23 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>春节祝福语生成器</title>
-    <link rel="stylesheet" href="style.css">
     <meta name="description" content="春节祝福语生成器 - 轻松生成传统、现代和趣味的新年祝福语">
     <meta name="keywords" content="春节,新年,祝福语,拜年,新春">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap">
+    <title>春节祝福语生成器</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <canvas id="fireworks"></canvas>
+    <div class="lanterns">
+        <div class="lantern left-top"><span>福</span></div>
+        <div class="lantern right-top"><span>福</span></div>
+        <div class="lantern left-bottom"><span>福</span></div>
+        <div class="lantern right-bottom"><span>福</span></div>
+    </div>
     <div class="container">
-        <h1>🧧 春节祝福生成器</h1>
+        <h1><span class="emoji">🧧</span> 春节祝福生成器</h1>
         <div class="control-panel">
             <button onclick="generateBlessing('traditional')">传统祝福</button>
             <button onclick="generateBlessing('modern')">现代祝福</button>
@@ -23,5 +31,6 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script src="fireworks.js"></script>
 </body>
 </html>

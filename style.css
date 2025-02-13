@@ -1,17 +1,38 @@
 body {
-    font-family: 'Microsoft YaHei', sans-serif;
+    font-family: 'ZCOOL XiaoWei', 'STKaiti', 'KaiTi', serif;
     background: linear-gradient(135deg, #ffd700, #c10e0e);
     min-height: 100vh;
-    padding: 20px;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#fireworks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    background: transparent;
 }
 
 .container {
     max-width: 800px;
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.9);
+    margin: 20px;
+    width: calc(100% - 40px);
+    background: rgba(255, 255, 255, 0.95);
     padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.8s ease-out;
+    position: relative;
+    z-index: 2;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
 }
 
 h1 {
@@ -19,6 +40,16 @@ h1 {
     text-align: center;
     font-size: 2.5em;
     margin-bottom: 30px;
+    font-family: 'ZCOOL XiaoWei', 'STKaiti', 'KaiTi', serif;
+    font-weight: normal;
+    letter-spacing: 4px;
+    text-shadow: 2px 2px 4px rgba(193, 14, 14, 0.2);
+    animation: titleWave 2s infinite;
+    transition: all 0.3s ease;
+}
+
+h1:hover {
+    text-shadow: 2px 2px 8px rgba(193, 14, 14, 0.5);
 }
 
 .control-panel {
@@ -30,30 +61,84 @@ h1 {
 
 button {
     padding: 12px 25px;
-    background-color: #c10e0e;
-    color: white;
+    background: #c10e0e;
     border: none;
+    color: #ffd700;
     border-radius: 25px;
+    font-family: 'ZCOOL XiaoWei', 'STKaiti', 'KaiTi', serif;
+    font-weight: normal;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 15px rgba(193, 14, 14, 0.2);
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    font-size: 1.1em;
 }
 
 button:hover {
-    transform: scale(1.05);
-    background-color: #a80d0d;
+    background-color: #d41111;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(193, 14, 14, 0.3);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+button:hover::after {
+    width: 200px;
+    height: 200px;
 }
 
 .blessing-box {
-    background: #fff3e6;
-    padding: 25px;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
     min-height: 100px;
-    font-size: 1.2em;
-    line-height: 1.6;
+    font-size: 1.4em;
+    line-height: 1.8;
     text-align: center;
     margin: 20px 0;
-    border: 2px dashed #ffd700;
-    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    position: relative;
+    font-family: 'ZCOOL XiaoWei', 'STKaiti', 'KaiTi', serif;
+}
+
+.blessing-box::before,
+.blessing-box::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #8b4513;
+}
+
+.blessing-box::before {
+    top: 10px;
+    left: 10px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.blessing-box::after {
+    bottom: 10px;
+    right: 10px;
+    border-left: none;
+    border-top: none;
 }
 
 .actions {
@@ -72,16 +157,13 @@ button:hover {
     animation: fadeIn 0.5s ease-out;
 }
 
-/* 添加按钮点击效果 */
-button:active {
-    transform: scale(0.95);
-}
-
 /* 添加移动端响应式设计 */
 @media (max-width: 768px) {
     .container {
         padding: 20px;
         margin: 10px;
+        width: calc(100% - 20px);
+        max-height: calc(100vh - 20px);
     }
 
     .control-panel {
@@ -96,4 +178,278 @@ button:active {
     h1 {
         font-size: 1.8em;
     }
+}
+
+/* 红包摇动动画 */
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+}
+
+h1 .emoji {
+    display: inline-block;
+    animation: shake 2s ease-in-out infinite;
+}
+
+/* 页面加载动画 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 按钮点击波纹效果 */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* 灯笼样式 */
+.lanterns {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.lantern {
+    position: absolute;
+    width: 50px;
+    height: 70px;
+    background: #c10e0e;
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(193, 14, 14, 0.5);
+    animation: lanternSwing 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffd700;
+}
+
+/* 灯笼顶部 */
+.lantern::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 15px;
+    background: #ffd700;
+    border-radius: 5px 5px 0 0;
+}
+
+/* 灯笼文字 */
+.lantern span {
+    content: '福';
+    color: #ffd700;
+    font-size: 2.2em;
+    font-weight: normal;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    line-height: 1;
+    font-family: 'ZCOOL XiaoWei', 'STKaiti', 'KaiTi', serif;
+}
+
+/* 灯笼底部装饰 */
+.lantern::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 20px;
+    background: linear-gradient(
+        to bottom,
+        #ffd700 0%,
+        #ffd700 30%,
+        transparent 30%,
+        transparent 50%,
+        #ffd700 50%,
+        #ffd700 80%,
+        transparent 80%
+    );
+}
+
+.lantern.left-top {
+    top: 40px;
+    left: 40px;
+    animation-delay: 0s;
+}
+
+.lantern.right-top {
+    top: 40px;
+    right: 40px;
+    animation-delay: 0.5s;
+}
+
+.lantern.left-bottom {
+    bottom: 40px;
+    left: 40px;
+    animation-delay: 1s;
+}
+
+.lantern.right-bottom {
+    bottom: 40px;
+    right: 40px;
+    animation-delay: 1.5s;
+}
+
+@keyframes lanternSwing {
+    0%, 100% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .lantern {
+        width: 40px;
+        height: 60px;
+    }
+
+    .lantern::before {
+        font-size: 1.5em;
+    }
+
+    .lantern.left-top,
+    .lantern.left-bottom {
+        left: 20px;
+    }
+
+    .lantern.right-top,
+    .lantern.right-bottom {
+        right: 20px;
+    }
+
+    .lantern.left-top,
+    .lantern.right-top {
+        top: 20px;
+    }
+
+    .lantern.left-bottom,
+    .lantern.right-bottom {
+        bottom: 20px;
+    }
+}
+
+/* 分享弹窗样式 */
+.share-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.share-content {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.share-buttons button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 20px;
+}
+
+.share-buttons img {
+    width: 24px;
+    height: 24px;
+}
+
+/* 二维码弹窗样式 */
+.qr-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.qr-content {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 90%;
+    width: 300px;
+}
+
+#qrcode {
+    margin: 20px auto;
+    width: 128px;
+    height: 128px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+#qrcode img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.share-tip {
+    color: #666;
+    margin: 10px 0;
+    font-size: 1.1em;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.share-text {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.share-source {
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 10px;
 }
