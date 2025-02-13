@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>春节祝福语生成器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🧧 春节祝福生成器</h1>
+        <div class="control-panel">
+            <button onclick="generateBlessing('traditional')">传统祝福</button>
+            <button onclick="generateBlessing('modern')">现代祝福</button>
+            <button onclick="generateBlessing('humorous')">趣味祝福</button>
+        </div>
+        <div id="output" class="blessing-box"></div>
+        <div class="actions">
+            <button onclick="copyToClipboard()">复制祝福语</button>
+            <button onclick="shareBlessing()">分享祝福</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
