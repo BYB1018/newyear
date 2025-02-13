@@ -17,12 +17,21 @@ const blessings = {
 };
 
 function generateBlessing(type) {
-    const output = document.getElementById('output');
-    const category = blessings[type];
-    const randomIndex = Math.floor(Math.random() * category.length);
-    output.innerHTML = category[randomIndex];
-    output.classList.add('animate');
-    setTimeout(() => output.classList.remove('animate'), 500);
+    try {
+        const output = document.getElementById('output');
+        output.innerHTML = '<span style="color: #999;">正在生成祝福语...</span>';
+        
+        setTimeout(() => {
+            const category = blessings[type];
+            const randomIndex = Math.floor(Math.random() * category.length);
+            output.innerHTML = category[randomIndex];
+            output.classList.add('animate');
+            setTimeout(() => output.classList.remove('animate'), 500);
+        }, 200);
+    } catch (error) {
+        console.error('生成祝福语时出错:', error);
+        output.innerHTML = '抱歉，生成祝福语时出现错误，请重试。';
+    }
 }
 
 function copyToClipboard() {
@@ -38,8 +47,20 @@ function shareBlessing() {
         navigator.share({
             title: '春节祝福',
             text: text,
+            url: 'https://byb1018.github.io/newyear/'
+        }).catch(err => {
+            console.log('分享失败:', err);
+            fallbackShare();
         });
     } else {
-        alert('当前浏览器不支持分享功能，请手动复制分享');
+        fallbackShare();
     }
+}
+
+function fallbackShare() {
+    const text = document.getElementById('output').innerText;
+    const shareUrl = `https://byb1018.github.io/newyear/`;
+    const shareText = `${text}\n\n来自春节祝福生成器：${shareUrl}`;
+    copyToClipboard(shareText);
+    alert('祝福语已复制，您可以直接粘贴分享给亲朋好友！');
 }

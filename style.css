@@ -53,10 +53,47 @@ button:hover {
     text-align: center;
     margin: 20px 0;
     border: 2px dashed #ffd700;
+    transition: all 0.3s ease;
 }
 
 .actions {
     display: flex;
     justify-content: center;
     gap: 15px;
+}
+
+/* 添加祝福语切换动画 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 添加按钮点击效果 */
+button:active {
+    transform: scale(0.95);
+}
+
+/* 添加移动端响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .control-panel {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
 }
